@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
 import com.example.myapplication.data.api.TheMovieDBClient.Companion.FIRST_PAGE
 import com.example.myapplication.data.api.TheMovieDBClient.Companion.getPopularMovieList
+import com.example.myapplication.data.api.TheMovieDBClient.Companion.getTopRatedMovieList
 import com.example.myapplication.data.api.TheMovieDBClient.Companion.getUpcomingMovieList
 import com.example.myapplication.data.pojo.Movie
 import com.example.myapplication.data.pojo.MovieResponse
@@ -22,6 +23,7 @@ class MovieDataSource(private val listName:String,private val compositeDisposabl
     private var page = FIRST_PAGE
     private var observable1:Single<MovieResponse> ?=null
     private var observable2:Single<MovieResponse> ?=null
+    private var observable3:Single<MovieResponse> ?=null
     private lateinit var observer:SingleObserver<MovieResponse>
 
     private val networkState: MutableLiveData<NetworkState> = MutableLiveData()
@@ -36,8 +38,9 @@ class MovieDataSource(private val listName:String,private val compositeDisposabl
         {
             "popular" ->observable1=getPopularMovieList(page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
             "upcoming"->observable2=getUpcomingMovieList(page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+            "top_rated"->observable3=getTopRatedMovieList(page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
         }
-        observer = object:SingleObserver<MovieResponse>{
+        observer = object:SingleObserver<MovieResponse> {
             override fun onSubscribe(d: Disposable) {
                 compositeDisposable.add(d)
                 Log.d("MovieDetailsDataSource", "onSubscribe:")
@@ -56,6 +59,7 @@ class MovieDataSource(private val listName:String,private val compositeDisposabl
         }
         observable1?.subscribe(observer)
         observable2?.subscribe(observer)
+        observable3?.subscribe(observer)
     }
 
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Movie>) {
@@ -64,6 +68,7 @@ class MovieDataSource(private val listName:String,private val compositeDisposabl
         {
             "popular" ->observable1=getPopularMovieList(params.key).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
             "upcoming"->observable2=getUpcomingMovieList(params.key).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+            "top_rated"->observable3=getTopRatedMovieList(page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
         }
         observer = object:SingleObserver<MovieResponse>{
             override fun onSubscribe(d: Disposable?) {
@@ -89,6 +94,7 @@ class MovieDataSource(private val listName:String,private val compositeDisposabl
         }
         observable1?.subscribe(observer)
         observable2?.subscribe(observer)
+        observable3?.subscribe(observer)
     }
 
     override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, Movie>) {

@@ -69,5 +69,9 @@ class TheMovieDBClient {
         {
             return theMovieDBInterface1.getUpcomingMovie(page)
         }
+        fun getTopRatedMovieList(page:Int):Single<MovieResponse>
+        {
+            return theMovieDBInterface1.getTopRatedMovies(page)
+        }
     }
 }

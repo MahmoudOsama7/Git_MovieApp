@@ -16,6 +16,9 @@ interface TheMovieDBInterface {
     @GET("movie/popular")
     fun getPopularMovie(@Query("page") page: Int): Single<MovieResponse>
 
+    @GET("movie/top_rated")
+    fun getTopRatedMovies(@Query("page") page: Int): Single<MovieResponse>
+
     @GET("movie/upcoming")
     fun getUpcomingMovie(@Query("page") page: Int): Single<MovieResponse>
 

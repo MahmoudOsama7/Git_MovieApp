@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.single_movie_details
+package com.example.myapplication.data.repository
 
 import androidx.lifecycle.LiveData
 import com.example.myapplication.data.data_source.single_movie.SingleMovieDetailsNetworkDataSource

@@ -14,7 +14,6 @@
         android:completionThreshold="1"
         android:hint="Search For Movie List"
         android:inputType="text"
-        app:layout_constraintBottom_toTopOf="@+id/linearlayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

@@ -15,7 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MovieListActivity : AppCompatActivity() {
 
     private val viewModel: MainActivityViewModel by viewModels()
     private lateinit var movieAdapter :PopularMoviePagedListAdapter

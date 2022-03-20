@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.popular_movie
+package com.example.myapplication.data.repository
 
 import androidx.lifecycle.LiveData
 import androidx.paging.LivePagedListBuilder

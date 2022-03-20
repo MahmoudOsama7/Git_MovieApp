@@ -6,8 +6,7 @@ import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import com.example.myapplication.R
-import com.example.myapplication.ui.popular_movie.MainActivity
-import com.example.myapplication.ui.single_movie_details.SingleMovie
+import com.example.myapplication.ui.popular_movie.MovieListActivity
 
 class MainActivity : AppCompatActivity() {
     private lateinit var autoCompleteTextView: AutoCompleteTextView
@@ -35,7 +34,7 @@ class MainActivity : AppCompatActivity() {
     {
         autoCompleteTextView.setOnItemClickListener{ parent, view, position, id ->
             getSelectedData=parent.getItemAtPosition(position) as String
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, MovieListActivity::class.java)
             intent.putExtra("name",getSelectedData)
             startActivity(intent)
         }

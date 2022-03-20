@@ -5,13 +5,14 @@ import androidx.lifecycle.ViewModel
 import androidx.paging.PagedList
 import com.example.myapplication.data.repository.NetworkState
 import com.example.myapplication.data.pojo.Movie
+import com.example.myapplication.data.repository.MoviePagedListRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 @HiltViewModel
 class MainActivityViewModel
 @Inject
-constructor(private val movieRepository:MoviePagedListRepository): ViewModel()
+constructor(private val movieRepository: MoviePagedListRepository): ViewModel()
 {
 
     private val compositeDisposable = CompositeDisposable()

@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.example.myapplication.data.repository.NetworkState
 import com.example.myapplication.data.pojo.MovieDetails
+import com.example.myapplication.data.repository.SingleMovieRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject

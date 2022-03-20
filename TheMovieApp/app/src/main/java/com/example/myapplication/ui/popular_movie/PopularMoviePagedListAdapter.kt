@@ -100,7 +100,6 @@ class PopularMoviePagedListAdapter(private val context: Context) : PagedListAdap
                 val intent = Intent(context, SingleMovie::class.java)
                 intent.putExtra("id", movie?.id)
                 context.startActivity(intent)
-                //Toast.makeText(context, movie?.id.toString(), Toast.LENGTH_SHORT).show()
             }
         }
 

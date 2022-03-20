@@ -1,4 +1,4 @@
-package com.example.myapplication.data.module
+package com.example.myapplication.data.di
 
 import com.example.myapplication.data.api.TheMovieDBClient
 import com.example.myapplication.data.api.TheMovieDBClient.BASE_URL

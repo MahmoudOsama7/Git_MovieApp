@@ -8,14 +8,10 @@ import javax.inject.Inject
 
 class SingleMovieRepository
 @Inject
-constructor()
+constructor(private var singleMovieDetailsNetworkDataSource:SingleMovieDetailsNetworkDataSource )
 {
 
-    lateinit var singleMovieDetailsNetworkDataSource: SingleMovieDetailsNetworkDataSource
-
     fun fetchSingleMovieDetails (id:Int) : LiveData<MovieDetails> {
-
-        singleMovieDetailsNetworkDataSource = SingleMovieDetailsNetworkDataSource()
         singleMovieDetailsNetworkDataSource.fetchMovieDetails(id)
         return singleMovieDetailsNetworkDataSource.downloadedMovieResponse
     }

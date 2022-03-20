@@ -5,10 +5,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.example.myapplication.data.repository.NetworkState
 import com.example.myapplication.data.pojo.MovieDetails
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.disposables.CompositeDisposable
-
-class SingleMovieViewModel  : ViewModel() {
-    private val singleMovieRepository : SingleMovieRepository = SingleMovieRepository()
+import javax.inject.Inject
+@HiltViewModel
+class SingleMovieViewModel
+    @Inject
+    constructor(private val singleMovieRepository : SingleMovieRepository):ViewModel() {
     private val compositeDisposable = CompositeDisposable()
     private var id=0
 

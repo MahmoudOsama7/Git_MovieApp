@@ -1,6 +1,7 @@
 package com.example.myapplication.data.module
 
 import com.example.myapplication.data.api.TheMovieDBClient
+import com.example.myapplication.data.api.TheMovieDBClient.BASE_URL
 import com.example.myapplication.data.api.TheMovieDBInterface
 import dagger.Module
 import dagger.Provides
@@ -20,7 +21,8 @@ class AppModule {
     @Singleton
     @Provides
     fun provideRetrofitClient():Retrofit{
-        val interceptor = Interceptor { chain ->
+        val interceptor =
+            Interceptor { chain ->
             val url =
                 chain.request().url.newBuilder().addQueryParameter("api_key",
                     TheMovieDBClient.API_KEY
@@ -28,7 +30,7 @@ class AppModule {
             val request = chain.request().newBuilder().url(url).build()
             return@Interceptor chain.proceed(request)}
         val okHTTPClient = OkHttpClient.Builder().addInterceptor(interceptor).connectTimeout(60, TimeUnit.SECONDS).build()
-        return Retrofit.Builder().baseUrl("https://api.themoviedb.org/3/").client(okHTTPClient)
+        return Retrofit.Builder().baseUrl(BASE_URL).client(okHTTPClient)
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create()).build()
     }

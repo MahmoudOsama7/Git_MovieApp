@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
@@ -17,15 +18,15 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_single_movie.*
 import java.text.NumberFormat
 import java.util.*
-
+@AndroidEntryPoint
 class SingleMovie : AppCompatActivity() {
 
-    private lateinit var viewModel: SingleMovieViewModel
+
+    private val viewModel: SingleMovieViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_single_movie)
-        initView()
         getFullMovieDetails()
         loadData()
     }
@@ -57,10 +58,6 @@ class SingleMovie : AppCompatActivity() {
         movie_revenue.text = formatCurrency.format(it.revenue)
         val moviePosterURL = POSTER_BASE_URL+ it.posterPath
         Glide.with(this).load(moviePosterURL).into(iv_movie_poster)
-    }
-    private fun initView()
-    {
-        viewModel = ViewModelProviders.of(this).get(SingleMovieViewModel::class.java)
     }
     private fun getFullMovieDetails()
     {

@@ -5,12 +5,16 @@ import androidx.lifecycle.ViewModel
 import androidx.paging.PagedList
 import com.example.myapplication.data.repository.NetworkState
 import com.example.myapplication.data.pojo.Movie
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.disposables.CompositeDisposable
-
-class MainActivityViewModel : ViewModel() {
+import javax.inject.Inject
+@HiltViewModel
+class MainActivityViewModel
+@Inject
+constructor(private val movieRepository:MoviePagedListRepository): ViewModel()
+{
 
     private val compositeDisposable = CompositeDisposable()
-    private val movieRepository= MoviePagedListRepository(compositeDisposable)
 
     private var listName:String="popular"
 
@@ -37,6 +41,7 @@ class MainActivityViewModel : ViewModel() {
     }
     fun clearComposite()
     {
+        movieRepository.getData(compositeDisposable)
         movieRepository.clearComposite()
     }
 

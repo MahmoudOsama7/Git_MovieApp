@@ -15,7 +15,9 @@ import com.bumptech.glide.Glide
 import com.example.myapplication.data.repository.NetworkState
 import com.example.myapplication.data.pojo.Movie
 import com.example.myapplication.R
-import com.example.myapplication.data.api.TheMovieDBClient.Companion.POSTER_BASE_URL
+import com.example.myapplication.data.api.TheMovieDBClient.POSTER_BASE_URL
+
+
 import com.example.myapplication.ui.single_movie_details.SingleMovie
 
 

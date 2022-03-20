@@ -1,11 +1,15 @@
 package com.example.myapplication.ui.single_movie_details
 
 import androidx.lifecycle.LiveData
-import com.example.myapplication.data.repository.SingleMovieDetailsNetworkDataSource
+import com.example.myapplication.data.data_source.SingleMovieDetailsNetworkDataSource
 import com.example.myapplication.data.repository.NetworkState
 import com.example.myapplication.data.pojo.MovieDetails
+import javax.inject.Inject
 
-class SingleMovieRepository () {
+class SingleMovieRepository
+@Inject
+constructor()
+{
 
     lateinit var singleMovieDetailsNetworkDataSource: SingleMovieDetailsNetworkDataSource
 

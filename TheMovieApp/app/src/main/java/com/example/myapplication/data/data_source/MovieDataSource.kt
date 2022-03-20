@@ -1,13 +1,11 @@
-package com.example.myapplication.data.repository.popular_movie_list_data_source
+package com.example.myapplication.data.data_source
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
-import com.example.myapplication.data.api.TheMovieDBClient.Companion.FIRST_PAGE
-import com.example.myapplication.data.api.TheMovieDBClient.Companion.getPopularMovieList
-import com.example.myapplication.data.api.TheMovieDBClient.Companion.getTopRatedMovieList
-import com.example.myapplication.data.api.TheMovieDBClient.Companion.getUpcomingMovieList
+import com.example.myapplication.data.api.TheMovieDBClient.FIRST_PAGE
+import com.example.myapplication.data.api.TheMovieDBInterface
 import com.example.myapplication.data.pojo.Movie
 import com.example.myapplication.data.pojo.MovieResponse
 import com.example.myapplication.data.repository.NetworkState
@@ -17,9 +15,14 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
-class MovieDataSource(private val listName:String,private val compositeDisposable: CompositeDisposable) : PageKeyedDataSource<Int, Movie>(){
-
+class MovieDataSource
+@Inject
+constructor():PageKeyedDataSource<Int, Movie>()
+{
+    private lateinit var listName:String
+    private lateinit var compositeDisposable: CompositeDisposable
     private var page = FIRST_PAGE
     private var observable1:Single<MovieResponse> ?=null
     private var observable2:Single<MovieResponse> ?=null
@@ -29,6 +32,8 @@ class MovieDataSource(private val listName:String,private val compositeDisposabl
     private val networkState: MutableLiveData<NetworkState> = MutableLiveData()
     val _networkState:LiveData<NetworkState> = networkState
 
+    @Inject
+    lateinit var theMovieDBInterface: TheMovieDBInterface
 
 
     override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, Movie>) {
@@ -36,9 +41,9 @@ class MovieDataSource(private val listName:String,private val compositeDisposabl
         networkState.postValue(NetworkState.LOADING)
         when(listName)
         {
-            "popular" ->observable1=getPopularMovieList(page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-            "upcoming"->observable2=getUpcomingMovieList(page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-            "top_rated"->observable3=getTopRatedMovieList(page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+            "popular" ->observable1=theMovieDBInterface.getPopularMovie(page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+            "upcoming"->observable2=theMovieDBInterface.getUpcomingMovie(page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+            "top_rated"->observable3=theMovieDBInterface.getTopRatedMovies(page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
         }
         observer = object:SingleObserver<MovieResponse> {
             override fun onSubscribe(d: Disposable) {
@@ -66,9 +71,9 @@ class MovieDataSource(private val listName:String,private val compositeDisposabl
         networkState.postValue(NetworkState.LOADING)
         when(listName)
         {
-            "popular" ->observable1=getPopularMovieList(params.key).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-            "upcoming"->observable2=getUpcomingMovieList(params.key).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-            "top_rated"->observable3=getTopRatedMovieList(page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+            "popular" ->observable1=theMovieDBInterface.getPopularMovie(params.key).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+            "upcoming"->observable2=theMovieDBInterface.getUpcomingMovie(params.key).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+            "top_rated"->observable3=theMovieDBInterface.getTopRatedMovies(page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
         }
         observer = object:SingleObserver<MovieResponse>{
             override fun onSubscribe(d: Disposable?) {
@@ -105,5 +110,8 @@ class MovieDataSource(private val listName:String,private val compositeDisposabl
     {
         compositeDisposable.clear()
     }
-
+    fun getData(listName:String,compositeDisposable: CompositeDisposable){
+        this.listName=listName
+        this.compositeDisposable=compositeDisposable
+    }
 }

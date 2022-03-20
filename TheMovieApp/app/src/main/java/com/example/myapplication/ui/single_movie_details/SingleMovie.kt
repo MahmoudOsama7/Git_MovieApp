@@ -8,9 +8,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
 import com.example.myapplication.R
-import com.example.myapplication.data.api.TheMovieDBClient.Companion.POSTER_BASE_URL
+import com.example.myapplication.data.api.TheMovieDBClient.POSTER_BASE_URL
+
+
 import com.example.myapplication.data.repository.NetworkState
 import com.example.myapplication.data.pojo.MovieDetails
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_single_movie.*
 import java.text.NumberFormat
 import java.util.*
@@ -52,7 +55,7 @@ class SingleMovie : AppCompatActivity() {
         val formatCurrency = NumberFormat.getCurrencyInstance(Locale.US)
         movie_budget.text = formatCurrency.format(it.budget)
         movie_revenue.text = formatCurrency.format(it.revenue)
-        val moviePosterURL = POSTER_BASE_URL + it.posterPath
+        val moviePosterURL = POSTER_BASE_URL+ it.posterPath
         Glide.with(this).load(moviePosterURL).into(iv_movie_poster)
     }
     private fun initView()

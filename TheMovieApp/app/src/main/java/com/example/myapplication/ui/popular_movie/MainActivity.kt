@@ -1,25 +1,23 @@
 package com.example.myapplication.ui.popular_movie
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+
 import android.os.Bundle
 import android.view.View
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
-import android.widget.Toast
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-import androidx.lifecycle.viewModelScope
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.myapplication.R
 import com.example.myapplication.data.pojo.Movie
 import com.example.myapplication.data.repository.NetworkState
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: MainActivityViewModel
+    private val viewModel: MainActivityViewModel by viewModels()
     private lateinit var movieAdapter :PopularMoviePagedListAdapter
 
 
@@ -33,13 +31,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun setName()
     {
-        var intent=intent
-        var list=intent.getStringExtra("name") as String
+        val intent=intent
+        val list=intent.getStringExtra("name") as String
         viewModel.setListName(list)
     }
     private fun initView()
     {
-        initViewModel()
         initAdapter()
     }
     private fun bindNetwork(it: NetworkState?) {
@@ -50,10 +47,6 @@ class MainActivity : AppCompatActivity() {
         movieAdapter.submitList(it)
     }
 
-    private fun initViewModel()
-    {
-        viewModel = ViewModelProviders.of(this).get(MainActivityViewModel::class.java)
-    }
     private fun initAdapter()
     {
         val gridLayoutManager = GridLayoutManager(this, 3)

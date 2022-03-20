@@ -10,3 +10,4 @@ The movie App is application used to display list of movies to the user , based 
 4-Pagination
 5-Picasso
 6-MVVM Architecuture pattern 
+7-Dagger Hilt

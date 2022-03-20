@@ -1,7 +1,7 @@
-package com.example.myapplication.data.data_source
+package com.example.myapplication.data.data_source.movie_list
 import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
-import com.example.myapplication.data.data_source.MovieDataSource
+import com.example.myapplication.data.data_source.movie_list.MovieDataSource
 import com.example.myapplication.data.pojo.Movie
 import com.example.myapplication.data.repository.NetworkState
 import io.reactivex.disposables.CompositeDisposable

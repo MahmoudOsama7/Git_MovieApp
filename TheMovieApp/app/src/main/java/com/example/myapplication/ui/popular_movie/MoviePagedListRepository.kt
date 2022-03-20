@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.example.myapplication.data.api.TheMovieDBClient.POSTS_PER_PAGE
-import com.example.myapplication.data.data_source.MovieDataSourceFactory
+import com.example.myapplication.data.data_source.movie_list.MovieDataSourceFactory
 import com.example.myapplication.data.repository.NetworkState
 import com.example.myapplication.data.pojo.Movie
 import io.reactivex.disposables.CompositeDisposable

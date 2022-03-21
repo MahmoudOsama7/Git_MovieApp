@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
 import com.example.myapplication.data.api.TheMovieDBClient.FIRST_PAGE
 import com.example.myapplication.data.api.TheMovieDBInterface
+import com.example.myapplication.data.di.MovieRepository
 import com.example.myapplication.data.pojo.Movie
 import com.example.myapplication.data.pojo.MovieResponse
 import com.example.myapplication.data.repository.NetworkState
@@ -33,7 +34,7 @@ constructor():PageKeyedDataSource<Int, Movie>()
     val _networkState:LiveData<NetworkState> = networkState
 
     @Inject
-    lateinit var theMovieDBInterface: TheMovieDBInterface
+    lateinit var movieRepository: MovieRepository
 
 
     override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, Movie>) {
@@ -41,9 +42,9 @@ constructor():PageKeyedDataSource<Int, Movie>()
         networkState.postValue(NetworkState.LOADING)
         when(listName)
         {
-            "popular" ->observable1=theMovieDBInterface.getPopularMovie(page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-            "upcoming"->observable2=theMovieDBInterface.getUpcomingMovie(page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-            "top_rated"->observable3=theMovieDBInterface.getTopRatedMovies(page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+            "popular" ->observable1=movieRepository.getPopularMovieList(page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+            "upcoming"->observable2=movieRepository.getUpComingMovie(page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+            "top_rated"->observable3=movieRepository.getTopRatedMovie(page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
         }
         observer = object:SingleObserver<MovieResponse> {
             override fun onSubscribe(d: Disposable) {
@@ -71,9 +72,9 @@ constructor():PageKeyedDataSource<Int, Movie>()
         networkState.postValue(NetworkState.LOADING)
         when(listName)
         {
-            "popular" ->observable1=theMovieDBInterface.getPopularMovie(params.key).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-            "upcoming"->observable2=theMovieDBInterface.getUpcomingMovie(params.key).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-            "top_rated"->observable3=theMovieDBInterface.getTopRatedMovies(page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+            "popular" ->observable1=movieRepository.getPopularMovieList(params.key).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+            "upcoming"->observable2=movieRepository.getUpComingMovie(params.key).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+            "top_rated"->observable3=movieRepository.getTopRatedMovie(page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
         }
         observer = object:SingleObserver<MovieResponse>{
             override fun onSubscribe(d: Disposable?) {

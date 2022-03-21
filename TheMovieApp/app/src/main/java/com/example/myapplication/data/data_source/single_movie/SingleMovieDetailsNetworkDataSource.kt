@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.myapplication.data.api.TheMovieDBInterface
+import com.example.myapplication.data.di.MovieRepository
 import com.example.myapplication.data.pojo.MovieDetails
 import com.example.myapplication.data.repository.NetworkState
 import io.reactivex.Single
@@ -15,10 +16,8 @@ import javax.inject.Inject
 
 class SingleMovieDetailsNetworkDataSource
 @Inject
-constructor(private var theMovieDBInterface: TheMovieDBInterface)
+constructor(private var movieRepository: MovieRepository)
 {
-
-
     private lateinit var observable: Single<MovieDetails>
 
     private val _networkState  = MutableLiveData<NetworkState>()
@@ -30,9 +29,8 @@ constructor(private var theMovieDBInterface: TheMovieDBInterface)
         get() = _downloadedMovieDetailsResponse
 
     fun fetchMovieDetails(id:Int) {
-
         _networkState.postValue(NetworkState.LOADING)
-         observable  =theMovieDBInterface.getMovieDetails(id).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+         observable  =movieRepository.getMovieDetails(id).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
         _networkState.postValue(NetworkState.LOADING)
 
         //creating the observer that will subscribe to the observable as to take all the data from this observable

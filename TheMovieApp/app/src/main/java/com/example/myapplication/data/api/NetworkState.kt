@@ -1,5 +1,8 @@
 package com.example.myapplication.data.repository
 
+/**
+ * Class to state the loading status
+ */
 enum class Status {
     RUNNING,
     SUCCESS,

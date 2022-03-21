@@ -13,7 +13,6 @@ import javax.inject.Inject
 class SingleMovieViewModel
     @Inject
     constructor(private val singleMovieRepository : SingleMovieRepository):ViewModel() {
-    private val compositeDisposable = CompositeDisposable()
     private var id=0
 
     fun setMovieID(id:Int)
@@ -31,8 +30,6 @@ class SingleMovieViewModel
 
     override fun onCleared() {
         super.onCleared()
-        compositeDisposable.clear()
+       singleMovieRepository.clearComposite()
     }
-
-
 }

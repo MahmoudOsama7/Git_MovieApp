@@ -15,7 +15,6 @@ class MovieDataSourceFactory
 constructor(private var movieDataSource: MovieDataSource):DataSource.Factory<Int, Movie>()
 {
     lateinit var listName: String
-    lateinit var compositeDisposable: CompositeDisposable
     //when creating object of the class MovieDataSource that extends the class DataSource.Factory , the object now is triggered to run all the
     //callback methods
     //the same concept as recyclerview adapter when creating object of the class that extends the recyclerViewAdapter class
@@ -23,15 +22,14 @@ constructor(private var movieDataSource: MovieDataSource):DataSource.Factory<Int
     val _networkState:LiveData<NetworkState> =movieDataSource._networkState
 
     override fun create(): DataSource<Int, Movie> {
-        movieDataSource.getData(listName,compositeDisposable)
+        movieDataSource.getData(listName)
         return movieDataSource
     }
     fun clearComposite()
     {
         movieDataSource.removeObservables()
     }
-    fun getData(listName:String,compositeDisposable: CompositeDisposable){
+    fun getData(listName:String){
         this.listName=listName
-        this.compositeDisposable=compositeDisposable
     }
 }

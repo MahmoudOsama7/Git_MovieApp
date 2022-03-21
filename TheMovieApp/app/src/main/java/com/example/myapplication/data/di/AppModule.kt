@@ -10,6 +10,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import io.reactivex.Single
+import io.reactivex.disposables.CompositeDisposable
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -50,6 +51,11 @@ class AppModule {
     @Provides
     fun provideRetrofitInterface(retrofit: Retrofit):TheMovieDBInterface{
         return retrofit.create(TheMovieDBInterface::class.java)
+    }
+    @Singleton
+    @Provides
+    fun provideCompositeDisposable():CompositeDisposable{
+        return CompositeDisposable()
     }
 }
 

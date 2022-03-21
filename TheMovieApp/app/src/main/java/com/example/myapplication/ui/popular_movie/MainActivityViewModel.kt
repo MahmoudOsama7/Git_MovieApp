@@ -15,7 +15,6 @@ class MainActivityViewModel
 constructor(private val movieRepository: MoviePagedListRepository): ViewModel()
 {
 
-    private val compositeDisposable = CompositeDisposable()
 
     private var listName:String="popular"
 
@@ -38,12 +37,6 @@ constructor(private val movieRepository: MoviePagedListRepository): ViewModel()
 
     override fun onCleared() {
         super.onCleared()
-        compositeDisposable.clear()
-    }
-    fun clearComposite()
-    {
-        movieRepository.getData(compositeDisposable)
         movieRepository.clearComposite()
     }
-
 }

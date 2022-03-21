@@ -2,6 +2,7 @@ package com.example.myapplication.ui.single_movie_details
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -41,7 +42,15 @@ class SingleMovie : AppCompatActivity() {
     }
 
     private fun bindNetwork(it: NetworkState?) {
-        progress_bar.visibility = if (it == NetworkState.LOADING) View.VISIBLE else View.GONE
+        progress_bar.visibility = if (it == NetworkState.LOADING)
+        {
+            Log.d("SingleMovieDataSource", "LoadingData ")
+            View.VISIBLE
+        } else
+        {
+            Log.d("SingleMovieDataSource", "DataLoaded ")
+            View.GONE
+        }
         txt_error.visibility = if (it == NetworkState.ERROR) View.VISIBLE else View.GONE
     }
 

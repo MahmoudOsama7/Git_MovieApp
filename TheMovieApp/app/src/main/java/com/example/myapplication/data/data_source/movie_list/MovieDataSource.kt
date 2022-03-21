@@ -17,13 +17,15 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
+import kotlin.math.log
 
 class MovieDataSource
 @Inject
 constructor():PageKeyedDataSource<Int, Movie>()
 {
     private lateinit var listName:String
-    private lateinit var compositeDisposable: CompositeDisposable
+    @Inject
+    lateinit var compositeDisposable: CompositeDisposable
     private var page = FIRST_PAGE
     private var observable1:Single<MovieResponse> ?=null
     private var observable2:Single<MovieResponse> ?=null
@@ -49,18 +51,15 @@ constructor():PageKeyedDataSource<Int, Movie>()
         observer = object:SingleObserver<MovieResponse> {
             override fun onSubscribe(d: Disposable) {
                 compositeDisposable.add(d)
-                Log.d("MovieDetailsDataSource", "onSubscribe:")
             }
 
             override fun onSuccess(value: MovieResponse) {
                 callback.onResult(value.movieList, null, page+1)
                 networkState.postValue(NetworkState.LOADED)
-                Log.e("MovieDataSource","osos")
             }
 
             override fun onError(e: Throwable) {
                 networkState.postValue(NetworkState.ERROR)
-                Log.e("MovieDataSource", e.message!!)
             }
         }
         observable1?.subscribe(observer)
@@ -79,13 +78,13 @@ constructor():PageKeyedDataSource<Int, Movie>()
         observer = object:SingleObserver<MovieResponse>{
             override fun onSubscribe(d: Disposable?) {
                 compositeDisposable.add(d)
-                Log.d("MovieDetailsDataSource", "onSubscribe: ")
+                Log.d("MovieListDataSource", "CompositeDisposable Is Initialized ")
             }
 
             override fun onSuccess(value: MovieResponse?) {
                 if(value!!.totalPages >= params.key) {
                     callback.onResult(value.movieList, params.key+1)
-                    Log.d("3ash", "onSuccess: "+value.movieList.size)
+                    Log.d("MovieListDataSource", "Data Received Successfully")
                     networkState.postValue(NetworkState.LOADED)
                 }
                 else{
@@ -94,8 +93,9 @@ constructor():PageKeyedDataSource<Int, Movie>()
             }
 
             override fun onError(e: Throwable) {
+                Log.d("MovieListDataSource", "Error When Receiving The Data")
                 networkState.postValue(NetworkState.ERROR)
-                Log.e("MovieDataSource", e.message!!)
+
             }
         }
         observable1?.subscribe(observer)
@@ -110,9 +110,9 @@ constructor():PageKeyedDataSource<Int, Movie>()
     fun removeObservables()
     {
         compositeDisposable.clear()
+        Log.d("MovieListDataSource", "CompositeDisposable Is Cleared ")
     }
-    fun getData(listName:String,compositeDisposable: CompositeDisposable){
+    fun getData(listName:String){
         this.listName=listName
-        this.compositeDisposable=compositeDisposable
     }
 }

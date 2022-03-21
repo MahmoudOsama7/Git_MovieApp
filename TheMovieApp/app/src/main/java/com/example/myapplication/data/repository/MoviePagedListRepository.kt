@@ -14,12 +14,11 @@ class MoviePagedListRepository
 @Inject
 constructor(private var movieDataSourceFactory: MovieDataSourceFactory){
 
-    private var compositeDisposable:CompositeDisposable=CompositeDisposable()
     private lateinit var moviePagedList: LiveData<PagedList<Movie>>
 
     fun fetchLiveMoviePagedList (listName:String) : LiveData<PagedList<Movie>>
     {
-        movieDataSourceFactory.getData(listName,compositeDisposable)
+        movieDataSourceFactory.getData(listName)
         val config = PagedList.Config.Builder()
             .setEnablePlaceholders(false)
             .setPageSize(POSTS_PER_PAGE)
@@ -35,9 +34,6 @@ constructor(private var movieDataSourceFactory: MovieDataSourceFactory){
     fun clearComposite()
     {
         movieDataSourceFactory.clearComposite()
-    }
-    fun getData(compositeDisposable: CompositeDisposable){
-        this.compositeDisposable=compositeDisposable
     }
 
 }

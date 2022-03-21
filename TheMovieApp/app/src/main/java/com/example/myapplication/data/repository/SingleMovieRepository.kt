@@ -19,4 +19,7 @@ constructor(private var singleMovieDetailsNetworkDataSource: SingleMovieDetailsN
     fun getMovieDetailsNetworkState(): LiveData<NetworkState> {
         return singleMovieDetailsNetworkDataSource.networkState
     }
+    fun clearComposite(){
+        singleMovieDetailsNetworkDataSource.removeObservables()
+    }
 }

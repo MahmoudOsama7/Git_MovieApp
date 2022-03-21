@@ -2,6 +2,7 @@ package com.example.myapplication.ui.popular_movie
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -69,7 +70,13 @@ class MovieListActivity : AppCompatActivity() {
         })
 
         viewModel.networkState.observe(this, Observer {
-            progress_bar_popular.visibility = if (viewModel.listIsEmpty() && it == NetworkState.LOADING) View.VISIBLE else View.GONE
+            progress_bar_popular.visibility = if (viewModel.listIsEmpty() && it == NetworkState.LOADING) {
+                Log.d("MovieListDataSource", "LoadingData ")
+                View.VISIBLE
+            }else
+            {
+                View.GONE
+            }
             txt_error_popular.visibility = if (viewModel.listIsEmpty() && it == NetworkState.ERROR) View.VISIBLE else View.GONE
             bindNetwork(it)
         })

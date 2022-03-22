@@ -1,7 +1,7 @@
 package com.example.myapplication.data.di
 
-import com.example.myapplication.data.api.TheMovieDBClient
-import com.example.myapplication.data.api.TheMovieDBClient.BASE_URL
+import com.example.myapplication.data.api.Constants
+import com.example.myapplication.data.api.Constants.BASE_URL
 import com.example.myapplication.data.api.TheMovieDBInterface
 import com.example.myapplication.data.pojo.MovieDetails
 import com.example.myapplication.data.pojo.MovieResponse
@@ -38,7 +38,7 @@ class AppModule {
             Interceptor { chain ->
             val url =
                 chain.request().url.newBuilder().addQueryParameter("api_key",
-                    TheMovieDBClient.API_KEY
+                    Constants.API_KEY
                 ).build()
             val request = chain.request().newBuilder().url(url).build()
             return@Interceptor chain.proceed(request)}

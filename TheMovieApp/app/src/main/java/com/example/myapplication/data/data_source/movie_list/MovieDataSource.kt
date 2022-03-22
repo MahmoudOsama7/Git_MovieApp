@@ -4,8 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
-import com.example.myapplication.data.api.TheMovieDBClient.FIRST_PAGE
-import com.example.myapplication.data.api.TheMovieDBInterface
+import com.example.myapplication.data.api.Constants.FIRST_PAGE
 import com.example.myapplication.data.di.MovieRepository
 import com.example.myapplication.data.pojo.Movie
 import com.example.myapplication.data.pojo.MovieResponse
@@ -17,15 +16,15 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
-import kotlin.math.log
 
 class MovieDataSource
 @Inject
-constructor():PageKeyedDataSource<Int, Movie>()
+constructor(
+    private var compositeDisposable: CompositeDisposable,
+    private var movieRepository: MovieRepository):PageKeyedDataSource<Int, Movie>()
 {
     private lateinit var listName:String
-    @Inject
-    lateinit var compositeDisposable: CompositeDisposable
+
     private var page = FIRST_PAGE
     private var observable1:Single<MovieResponse> ?=null
     private var observable2:Single<MovieResponse> ?=null
@@ -34,10 +33,6 @@ constructor():PageKeyedDataSource<Int, Movie>()
 
     private val networkState: MutableLiveData<NetworkState> = MutableLiveData()
     val _networkState:LiveData<NetworkState> = networkState
-
-    @Inject
-    lateinit var movieRepository: MovieRepository
-
 
     override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, Movie>) {
 

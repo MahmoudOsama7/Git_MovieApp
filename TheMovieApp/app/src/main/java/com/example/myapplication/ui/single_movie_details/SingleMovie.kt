@@ -4,13 +4,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
 import com.example.myapplication.R
-import com.example.myapplication.data.api.TheMovieDBClient.POSTER_BASE_URL
+import com.example.myapplication.data.api.Constants.POSTER_BASE_URL
 
 
 import com.example.myapplication.data.repository.NetworkState

@@ -29,7 +29,7 @@ constructor(private var movieRepository: MovieRepository,private var compositeDi
 
     fun fetchMovieDetails(id:Int) {
         _networkState.postValue(NetworkState.LOADING)
-         observable  =movieRepository.getMovieDetails(id).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+         observable  =movieRepository.getMovieDetails(id).subscribeOn(Schedulers.io()).observeOn(Schedulers.io())
         _networkState.postValue(NetworkState.LOADING)
 
         //creating the observer that will subscribe to the observable as to take all the data from this observable

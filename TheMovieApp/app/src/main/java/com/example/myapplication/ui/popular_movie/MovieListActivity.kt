@@ -4,6 +4,7 @@ package com.example.myapplication.ui.popular_movie
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.ProgressBar
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -65,12 +66,13 @@ class MovieListActivity : AppCompatActivity() {
     }
     private fun loadData()
     {
-        viewModel.moviePagedList.observe(this, Observer {
+        viewModel.moviePagedList.observe(this){
             binUI(it)
-        })
+        }
 
-        viewModel.networkState.observe(this, Observer {
-            progress_bar_popular.visibility = if (viewModel.listIsEmpty() && it == NetworkState.LOADING) {
+        viewModel.networkState.observe(this){
+            val pb=findViewById<ProgressBar>(R.id.progress_bar_popular)
+            pb.visibility = if (viewModel.listIsEmpty() && it == NetworkState.LOADING) {
                 Log.d("MovieListDataSource", "LoadingData ")
                 View.VISIBLE
             }else
@@ -79,6 +81,6 @@ class MovieListActivity : AppCompatActivity() {
             }
             txt_error_popular.visibility = if (viewModel.listIsEmpty() && it == NetworkState.ERROR) View.VISIBLE else View.GONE
             bindNetwork(it)
-        })
+        }
     }
 }

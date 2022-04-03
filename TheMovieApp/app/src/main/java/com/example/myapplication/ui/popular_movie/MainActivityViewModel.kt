@@ -14,8 +14,6 @@ class MainActivityViewModel
 @Inject
 constructor(private val movieRepository: MoviePagedListRepository): ViewModel()
 {
-
-
     private var listName:String="popular"
 
     fun setListName(listName:String)

@@ -15,6 +15,10 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class MovieDataSource
@@ -34,14 +38,15 @@ constructor(
     private val networkState: MutableLiveData<NetworkState> = MutableLiveData()
     val _networkState:LiveData<NetworkState> = networkState
 
+
     override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, Movie>) {
 
         networkState.postValue(NetworkState.LOADING)
         when(listName)
         {
-            "popular" ->observable1=movieRepository.getPopularMovieList(page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-            "upcoming"->observable2=movieRepository.getUpComingMovie(page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-            "top_rated"->observable3=movieRepository.getTopRatedMovie(page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+            "popular" ->observable1=movieRepository.getPopularMovieList(page).subscribeOn(Schedulers.io()).observeOn(Schedulers.io())
+            "upcoming"->observable2=movieRepository.getUpComingMovie(page).subscribeOn(Schedulers.io()).observeOn(Schedulers.io())
+            "top_rated"->observable3=movieRepository.getTopRatedMovie(page).subscribeOn(Schedulers.io()).observeOn(Schedulers.io())
         }
         observer = object:SingleObserver<MovieResponse> {
             override fun onSubscribe(d: Disposable) {
@@ -66,9 +71,9 @@ constructor(
         networkState.postValue(NetworkState.LOADING)
         when(listName)
         {
-            "popular" ->observable1=movieRepository.getPopularMovieList(params.key).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-            "upcoming"->observable2=movieRepository.getUpComingMovie(params.key).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-            "top_rated"->observable3=movieRepository.getTopRatedMovie(page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+            "popular" ->observable1=movieRepository.getPopularMovieList(params.key).subscribeOn(Schedulers.io()).observeOn(Schedulers.io())
+            "upcoming"->observable2=movieRepository.getUpComingMovie(params.key).subscribeOn(Schedulers.io()).observeOn(Schedulers.io())
+            "top_rated"->observable3=movieRepository.getTopRatedMovie(page).subscribeOn(Schedulers.io()).observeOn(Schedulers.io())
         }
         observer = object:SingleObserver<MovieResponse>{
             override fun onSubscribe(d: Disposable?) {
@@ -101,6 +106,7 @@ constructor(
     override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, Movie>) {
 
     }
+
 
     fun removeObservables()
     {

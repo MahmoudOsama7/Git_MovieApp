@@ -1,0 +1,21 @@
+Index: app/src/main/java/com/example/myapplication/ui/popular_movie/MovieListActivity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.myapplication.ui.popular_movie\r\n\r\n\r\nimport android.os.Bundle\r\nimport android.util.Log\r\nimport android.view.View\r\nimport android.widget.ProgressBar\r\nimport androidx.activity.viewModels\r\nimport androidx.appcompat.app.AppCompatActivity\r\nimport androidx.lifecycle.Observer\r\nimport androidx.paging.PagedList\r\nimport androidx.recyclerview.widget.GridLayoutManager\r\nimport com.example.myapplication.R\r\nimport com.example.myapplication.data.pojo.Movie\r\nimport com.example.myapplication.data.repository.NetworkState\r\nimport dagger.hilt.android.AndroidEntryPoint\r\nimport kotlinx.android.synthetic.main.activity_main.*\r\n\r\n/**\r\n * new version\r\n */\r\n@AndroidEntryPoint\r\nclass MovieListActivity : AppCompatActivity() {\r\n\r\n    private val viewModel: MainActivityViewModel by viewModels()\r\n    private lateinit var movieAdapter :PopularMoviePagedListAdapter\r\n\r\n\r\n    override fun onCreate(savedInstanceState: Bundle?) {\r\n        super.onCreate(savedInstanceState)\r\n        setContentView(R.layout.activity_main)\r\n        initView()\r\n        setName()\r\n        loadData()\r\n    }\r\n\r\n    private fun setName()\r\n    {\r\n        val intent=intent\r\n        val list=intent.getStringExtra(\"name\") as String\r\n        viewModel.setListName(list)\r\n    }\r\n    private fun initView()\r\n    {\r\n        initAdapter()\r\n    }\r\n    private fun bindNetwork(it: NetworkState?) {\r\n        movieAdapter.setNetworkState(it)\r\n    }\r\n\r\n    private fun binUI(it: PagedList<Movie>?) {\r\n        movieAdapter.submitList(it)\r\n    }\r\n\r\n    private fun initAdapter()\r\n    {\r\n        val gridLayoutManager = GridLayoutManager(this, 3)\r\n        movieAdapter = PopularMoviePagedListAdapter(this)\r\n        gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {\r\n            override fun getSpanSize(position: Int): Int {\r\n                val viewType = movieAdapter.getItemViewType(position)\r\n                return if (viewType == movieAdapter.MOVIE_VIEW_TYPE) 1    // Movie_VIEW_TYPE will occupy 1 out of 3 span\r\n                else 3                                              // NETWORK_VIEW_TYPE will occupy all 3 span\r\n            }\r\n        }\r\n        rv_movie_list.layoutManager = gridLayoutManager\r\n        rv_movie_list.setHasFixedSize(true)\r\n        rv_movie_list.adapter = movieAdapter\r\n    }\r\n    private fun loadData()\r\n    {\r\n        viewModel.moviePagedList.observe(this){\r\n            binUI(it)\r\n        }\r\n\r\n        viewModel.networkState.observe(this){\r\n            val pb=findViewById<ProgressBar>(R.id.progress_bar_popular)\r\n            pb.visibility = if (viewModel.listIsEmpty() && it == NetworkState.LOADING) {\r\n                Log.d(\"MovieListDataSource\", \"LoadingData \")\r\n                View.VISIBLE\r\n            }else\r\n            {\r\n                View.GONE\r\n            }\r\n            txt_error_popular.visibility = if (viewModel.listIsEmpty() && it == NetworkState.ERROR) View.VISIBLE else View.GONE\r\n            bindNetwork(it)\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/myapplication/ui/popular_movie/MovieListActivity.kt b/app/src/main/java/com/example/myapplication/ui/popular_movie/MovieListActivity.kt
+--- a/app/src/main/java/com/example/myapplication/ui/popular_movie/MovieListActivity.kt	(revision bf497cd007ed464c5c2dc1c1347afe322dac30f5)
++++ b/app/src/main/java/com/example/myapplication/ui/popular_movie/MovieListActivity.kt	(date 1649169780544)
+@@ -16,9 +16,7 @@
+ import dagger.hilt.android.AndroidEntryPoint
+ import kotlinx.android.synthetic.main.activity_main.*
+ 
+-/**
+- * new version
+- */
++
+ @AndroidEntryPoint
+ class MovieListActivity : AppCompatActivity() {
+ 

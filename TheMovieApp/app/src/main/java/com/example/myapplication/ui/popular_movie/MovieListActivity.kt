@@ -17,7 +17,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 
 /**
- * new version
+
  */
 @AndroidEntryPoint
 class MovieListActivity : AppCompatActivity() {

@@ -16,7 +16,9 @@ import com.example.myapplication.data.repository.NetworkState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 
-
+/**
+ * 
+ */
 @AndroidEntryPoint
 class MovieListActivity : AppCompatActivity() {
 

@@ -13,5 +13,3 @@ The movie App is application used to display list of movies to the user , based 
 7-Dagger Hilt
 8-Picasso
 =======
-
->>>>>>> new-feature

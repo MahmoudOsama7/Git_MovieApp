@@ -12,4 +12,3 @@ The movie App is application used to display list of movies to the user , based 
 6-MVVM Architecuture pattern 
 7-Dagger Hilt
 8-Picasso
-9-
